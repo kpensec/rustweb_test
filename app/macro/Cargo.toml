@@ -1,0 +1,10 @@
+[package]
+name = "mymacro"
+version = "0.1.0"
+
+[lib]
+crate_type = ["proc-macro"]
+
+[dependencies]
+syn = "0.15"
+quote = "0.6"
