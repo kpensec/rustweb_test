@@ -1,4 +1,26 @@
 
+#[derive(GraphQLObject)]
+pub struct UserCreationResult {
+    pub id: String
+}
+
+impl UserCreationResult {
+    pub fn new(id: &str) -> Self {
+        UserCreationResult{id: id.to_string()}
+    }
+}
+
+#[derive(GraphQLInputObject)]
+pub struct UserCreationParam {
+    pub name: String
+}
+
+impl UserCreationParam {
+    pub fn new(name: &str) -> Self {
+        UserCreationParam{name: name.to_string()}
+    }
+}
+
 #[derive(Clone, GraphQLObject)]
 pub struct User {
     pub id: String,

@@ -1,6 +1,5 @@
 /// Definition des objets graphql
 
-use model::User;
 use ctx::Ctx;
 use juniper::{
     FieldResult,
@@ -8,18 +7,11 @@ use juniper::{
     FieldError,
     RootNode
 };
-use vagrant::MachinesStatus;
+
+use vagrant::{MachinesStatus, AlterMachineStateParam, AlterMachineStateResult};
+use model::{UserCreationParam, UserCreationResult, User};
 use vagrant;
 
-#[derive(GraphQLObject)]
-pub struct UserCreation {
-    id: String
-}
-
-#[derive(GraphQLInputObject)]
-pub struct UserCreationParam {
-    name: String
-}
 
 pub struct Query;
 pub struct Mutation;
@@ -52,8 +44,15 @@ graphql_object!(Query: Ctx as "Query" |&self| {
 graphql_object!(Mutation: Ctx as "Mutation" |&self| {
     description: "Root mutation object"
 
-    field addUser(&executor, params: UserCreationParam) -> FieldResult<UserCreation> {
-        Ok(UserCreation{id: executor.context().write_db().add_user(params.name.as_str())})
+    field addUser(&executor, params: UserCreationParam)
+    -> FieldResult<UserCreationResult> {
+        let ctx : &Ctx = executor.context();
+        Ok(ctx.write_db().add_user(params))
+    }
+
+    field alterVm(&executor, params: AlterMachineStateParam)
+    -> FieldResult<AlterMachineStateResult> {
+        Ok(params.switch_state())
     }
 });
 
