@@ -1,1 +1,0 @@
-{"virtualbox":{"/app":{"guestpath":"/app","hostpath":"E:/Workspace/rustlang/rocket-test/app","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"E:/Workspace/rustlang/rocket-test","disabled":false,"__vagrantfile":true}}}
