@@ -1,13 +1,29 @@
 use std::process::{Command, Stdio};
 use serde::{Serialize, Deserialize};
 
+
+#[derive(Serialize, Deserialize, GraphQLObject)]
+pub struct MachineBoxData {
+    pub provider: String,
+    pub version: String,
+    pub name: String,
+}
+
+#[derive(Serialize, Deserialize, GraphQLObject)]
+pub struct MachineStatusExtraData {
+    pub r#box: Option<MachineBoxData>
+}
 #[derive(Serialize, Deserialize, GraphQLObject)]
 pub struct MachineStatus {
-    pub id: String,
-    pub name: String,
-    pub provider: String,
-    pub state: String,
-    pub vagrantfile_path: String,
+    pub id: Option<String>,
+    pub local_data_path: Option<String>,
+    pub name: Option<String>,
+    pub provider: Option<String>,
+    pub state: Option<String>,
+    pub vagrantfile_name: Option<String>,
+    pub vagrantfile_path: Option<String>,
+    pub updated_at: Option<String>,
+    pub extra_data: Option<MachineStatusExtraData>
 }
 
 #[derive(Serialize, Deserialize, GraphQLEnum)]
@@ -27,8 +43,12 @@ pub struct AlterMachineStateResult {
     pub message: String
 }
 
-pub type MachinesStatus = Vec<MachineStatus>;
+#[derive(Serialize, Deserialize, GraphQLObject)]
+pub struct MachinesStatus {
+    pub machines: Vec<MachineStatus>
+}
 
+// TODO move this out of there!!!!
 fn execute_cmd(cmd : &mut Command, background : bool) -> String {
     const ERR_EXEC : &'static str = "ERROR during command execution";
     const ERR_CVT : &'static str = "ERROR during string conversion";
@@ -51,11 +71,9 @@ fn execute_cmd(cmd : &mut Command, background : bool) -> String {
 pub fn get_status() -> MachinesStatus {
 
     let json_string = execute_cmd(Command::new("vagrant")
-                                  .arg("global-status")
-                                  .arg("--json"),
+                                  .arg("json-status"),
                                   false
     );
-    println!("{}", json_string);
     serde_json::from_str::<MachinesStatus>(&json_string).unwrap()
 }
 
