@@ -54,8 +54,8 @@ fn execute_cmd(cmd : &mut Command, background : bool) -> String {
     const ERR_CVT : &'static str = "ERROR during string conversion";
     let cmd_prepared = cmd.current_dir("..");
     if background {
-        cmd_prepared.spawn().expect("Failed to start command");
-        "Command Started".to_string()
+        cmd_prepared.spawn().expect("{'msg': 'Failed to start command'");
+        "{'msg': 'Command Started'}".to_string()
     } else {
         let output = cmd_prepared.stdout(Stdio::piped()).output();
         match output {

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0"
@@ -13,7 +14,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "bg_build": "watch \"npm run build\" src public"
+    "bg_build": "watch \"npm run build; node tools/build.js\" src public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -31,6 +32,7 @@
     ]
   },
   "devDependencies": {
+    "node-notifier": "^5.4.0",
     "watch": "^1.0.2"
   }
 }

@@ -28,13 +28,13 @@ pub fn vagrant_status() -> Json<MachinesStatus> {
 }
 
 #[get("/up/<name>")]
-pub fn vagrant_up(name: String) -> String {
-    vagrant::power_on(name)
+pub fn vagrant_up(name: String) -> Json<String>{
+    Json(vagrant::power_on(name))
 }
 
 #[get("/down/<name>")]
-pub fn vagrant_down(name: String) -> String {
-    vagrant::power_off(name)
+pub fn vagrant_down(name: String) -> Json<String> {
+    Json(vagrant::power_off(name))
 }
 
 

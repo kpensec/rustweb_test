@@ -1,0 +1,10 @@
+--
+ansible_python_interpreter: /usr/bin/python2
+- hosts: all
+  tasks:
+    - name: ensure docker latest version
+      pacman: pkg=docker state=latest
+      notify:
+      - restart docker
+    - name: restart docker
+      service: name=docker state=restarted 
